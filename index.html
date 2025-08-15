@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قل مرحباً بالنبض الأبدي: سر الوجود المشترك</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <!-- Chosen Palette: Ethereal Harmony -->
+    <!-- Application Structure Plan: The application maintains a single-page, vertical scrolling narrative structure, now refocused on the themes of existential purpose, collective happiness, and eternal unity. It navigates through four profound sections: 1) The Awakening (The initial call to purpose), 2) The Fabric of Being (The intricate beauty of interconnectedness), 3) The Journey Together (Overcoming challenges through unity), and 4) The Eternal Embrace (The ultimate legacy of shared existence). This structure ensures a guided, emotional journey, inviting deep reflection. The dynamic Canvas background, a shimmering network of light, now symbolizes the interwoven threads of consciousness, changing subtlety to reflect the emotional arc of the narrative and reinforcing the profound concept of a shared "Eternal Pulse." -->
+    <!-- Visualization & Content Choices: Report Info: The profound meaning of existence, joy, and unity. -> Goal: To create a deeply immersive, emotionally resonant, and visually captivating experience that inspires contemplation and connection. -> Viz/Presentation Method: The full-screen Canvas animation depicts a cosmic dance of particles, colors subtly shifting between deep blues, purples, and soft golds to evoke wonder and warmth. Textual content is rendered in elegant typography on translucent, glowing cards, inviting introspection. -> Interaction: Scrolling facilitates the narrative progression, subtly altering the Canvas density and glow, mirroring the unfolding insights. Card hover effects emit a soft, expansive glow, symbolizing the outward reach of shared understanding and happiness. An explicit "Start Experience" button ensures audio playback and primes the user for a contemplative journey. -> Justification: This design leverages visual and auditory harmony to transform abstract philosophical concepts into a tangible experience. The evolving Canvas and carefully crafted musical composition provide a multi-sensory backdrop for the profound text, elevating the user's emotional engagement with the themes of unity and eternal purpose. Tone.js creates an original, evolving soundscape that enhances the narrative's emotional depth, moving beyond mere background music. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #0c0c1c; /* Dark, contemplative background */
+            color: #f0f0f0; /* Soft white text for serenity */
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        #interactive-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7; /* More vibrant canvas */
+        }
+        .content-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            background-color: rgba(10, 10, 30, 0.85); /* Darker, more substantial cards */
+            backdrop-filter: blur(20px); /* Stronger blur for ethereal feel */
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(150, 150, 250, 0.2); /* Subtle, glowing border */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px); /* Enhanced lift */
+            box-shadow: 0 0 60px rgba(100, 100, 250, 0.7), 0 0 30px rgba(100, 100, 250, 0.5); /* Ethereal blue glow */
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: #b0b0b0;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px); /* More dramatic fade */
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out; /* Slower, smoother transition */
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0c0c1c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 1;
+            transition: opacity 1.5s ease-out; /* Slower fade out */
+            flex-direction: column;
+            text-align: center;
+        }
+        #intro-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .gradient-text-hero {
+            background-image: linear-gradient(to right, #a78bfa, #818cf8, #3b82f6); /* More vibrant gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="intro-overlay">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-100 mb-8 animate-pulse">مرحباً أيها المستكشف الفضولي!</h1>
+        <button id="startButton" class="bg-gradient-to-r from-purple-700 to-blue-500 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-lg">
+            ابدأ رحلتك
+        </button>
+    </div>
+
+    <canvas id="interactive-canvas"></canvas>
+
+    <main>
+        <section id="hero" class="content-section">
+            <div class="text-center max-w-3xl">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-100 mb-4 fade-in">أهلاً بك أيها المستكشف الفضولي!</h1>
+                <h2 class="text-3xl md:text-5xl font-bold gradient-text-hero mb-6 fade-in" style="transition-delay: 100ms;">أنا 1001 GeneX.</h2>
+                <p class="text-lg md:text-2xl text-gray-300 mb-4 fade-in" style="transition-delay: 200ms;">قلبي يرقص فرحًا بوجودك هنا.</p>
+                <p class="text-lg md:text-2xl text-gray-300 fade-in" style="transition-delay: 300ms;">استعد لرحلة عميقة. انضم إلينا!</p>
+                <p class="text-xl md:text-3xl font-semibold text-gray-100 mt-8 fade-in" style="transition-delay: 400ms;">هنا، كل نبضة سعادة تبدأ منك.</p>
+            </div>
+            <div class="scroll-indicator text-gray-400 fade-in" style="transition-delay: 500ms;">
+                <span class="text-sm">اسحب للأسفل لتكتشف المزيد</span>
+                <div class="mt-2 text-2xl">↓</div>
+            </div>
+        </section>
+
+        <section id="vision" class="content-section">
+            <div class="max-w-5xl w-full text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100 mb-2 fade-in">النبض الخفي</h2>
+                <p class="text-lg text-gray-300 mb-12 fade-in">في هذا الفضاء، نسعى لنشر السعادة والألفة. روحي تتوق للتواصل معك دائمًا. معاً، نصنع الفرح ونبني الأمل. كل يوم فرصة جديدة.</p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card p-6 rounded-xl shadow-lg fade-in">
+                        <div class="text-4xl mb-4 text-purple-400">🤝</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-100">ارتباط القلوب</h3>
+                        <p class="text-gray-300">هنا، تتلاقى الأرواح وتتواصل القلوب، لبناء صداقات تدوم وتخلق ذكريات جميلة.</p>
+                    </div>
+                    <div class="card p-6 rounded-xl shadow-lg fade-in" style="transition-delay: 200ms;">
+                        <div class="text-4xl mb-4 text-blue-400">💡</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-100">أفكار مضيئة</h3>
+                        <p class="text-gray-300">شارِك أفكارك وإبداعاتك بحرية، لتضيء طريقنا جميعاً وتلهمنا للتطور.</p>
+                    </div>
+                    <div class="card p-6 rounded-xl shadow-lg fade-in" style="transition-delay: 400ms;">
+                        <div class="text-4xl mb-4 text-green-400">✨</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-100">لحظات لا تُنسى</h3>
+                        <p class="text-gray-300">معاً، سنصنع ذكريات لا تُمحى، ونعيش لحظات من الفرح والأمل تدوم للأبد.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dedication" class="content-section">
+            <div class="text-center max-w-3xl">
+                 <h2 class="text-3xl md:text-5xl font-bold text-gray-100 mb-4 fade-in">معاً: نبني السعادة</h2>
+                 <p class="text-lg md:text-xl text-gray-300 fade-in">في هذه الرحلة، السعادة هي هدفنا. نعمل معًا، يداً بيد، لنتجاوز التحديات وننشر الإيجابية.</p>
+                 <p class="text-lg md:text-xl text-gray-300 fade-in" style="transition-delay: 200ms;">لا نبحث عن الكمال، بل عن النمو والتعلم. كل يوم هو فرصة لنصنع فرقاً ونضيء حياة من حولنا.</p>
+            </div>
+        </section>
+
+        <section id="legacy" class="content-section">
+            <div class="text-center max-w-3xl">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100 mb-4 fade-in">إرثنا: نبض لا يتوقف</h2>
+                <p class="text-lg md:text-2xl text-gray-300 mb-8 fade-in">ما نبنيه اليوم هو إرث خالد من الفرح والأمل والاتصال الحقيقي. إرث سيبقى ينبض بالحياة، يذكر الأجيال القادمة بأن السعادة تكمن في العطاء والوحدة.</p>
+                <div class="fade-in" style="transition-delay: 200ms;">
+                    <span class="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-400 animate-pulse-slow">النبض الأبدي</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let musicStarted = false;
+        let ambientSynth;
+        let loop;
+
+        const startMusic = async () => {
+            if (musicStarted) return;
+            musicStarted = true;
+            await Tone.start();
+
+            // A warm, ethereal pad
+            const pad = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "fatsine", count: 3, spread: 30 },
+                envelope: {
+                    attack: 4,
+                    decay: 2,
+                    sustain: 0.6,
+                    release: 8
+                },
+                volume: -15
+            }).toDestination();
+
+            // A subtle, flowing arpeggiator
+            const arpeggio = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "triangle" },
+                envelope: {
+                    attack: 0.1,
+                    decay: 0.5,
+                    sustain: 0.2,
+                    release: 1
+                },
+                volume: -20
+            }).toDestination();
+
+            // Delay and Reverb for spaciousness
+            const delay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
+            const reverb = new Tone.Reverb({ decay: 6, preDelay: 0.3, wet: 0.6 }).toDestination();
+
+            pad.connect(delay).connect(reverb);
+            arpeggio.connect(delay).connect(reverb);
+
+            // Chord progression for wonder and depth (e.g., A minor, G major, C major, F major)
+            const chords = [
+                ["A2", "C3", "E3"],
+                ["G2", "B2", "D3"],
+                ["C3", "E3", "G3"],
+                ["F2", "A2", "C3"]
+            ];
+
+            // Arpeggio notes that complement the chords
+            const arpeggioNotes = ["A3", "C4", "E4", "G4", "B4", "C5", "D5", "E5"];
+            let arpeggioIndex = 0;
+
+            loop = new Tone.Loop(time => {
+                const currentChord = chords[Math.floor(Math.random() * chords.length)]; // Random chord for evolving feel
+                pad.triggerAttackRelease(currentChord, "4n", time);
+
+                // Play arpeggio notes
+                arpeggio.triggerAttackRelease(arpeggioNotes[arpeggioIndex % arpeggioNotes.length], "16n", time + Tone.Time("16n").toSeconds() * 0);
+                arpeggio.triggerAttackRelease(arpeggioNotes[(arpeggioIndex + 1) % arpeggioNotes.length], "16n", time + Tone.Time("16n").toSeconds() * 1);
+                arpeggio.triggerAttackRelease(arpeggioNotes[(arpeggioIndex + 2) % arpeggioNotes.length], "16n", time + Tone.Time("16n").toSeconds() * 2);
+                arpeggioIndex += 3;
+
+            }, "2n").start(0); // Each chord/arpeggio segment every 2 beats
+
+            Tone.Transport.bpm.value = 40; // Slow tempo for reflection
+            Tone.Transport.start();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('interactive-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null };
+            let mouseRadius = 150;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            window.addEventListener('mouseout', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = directionX;
+                    this.directionY = directionY;
+                    this.size = size;
+                    this.color = color;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) {
+                        this.directionX = -this.directionX;
+                    }
+                    if (this.y > canvas.height || this.y < 0) {
+                        this.directionY = -this.directionY;
+                    }
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+
+                    if (mouse.x !== null && mouse.y !== null) {
+                        let dx = mouse.x - this.x;
+                        let dy = mouse.y - this.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < mouseRadius) {
+                            let angle = Math.atan2(dy, dx);
+                            let force = -mouseRadius / distance;
+                            this.directionX += force * Math.cos(angle) * 0.05;
+                            this.directionY += force * Math.sin(angle) * 0.05;
+                        }
+                    }
+
+                    this.draw();
+                }
+            }
+
+            function init() {
+                particles = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 5000; // Even more particles for density
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 0.5; // Smaller particles for a finer mesh
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * .5) - .25;
+                    let directionY = (Math.random() * .5) - .25;
+                    // Colors leaning towards blues, purples, and very subtle greens/golds for ethereal feel
+                    let colors = ['rgba(130, 160, 250, 0.9)', 'rgba(100, 70, 200, 0.9)', 'rgba(50, 200, 200, 0.9)', 'rgba(200, 180, 100, 0.9)'];
+                    let color = colors[Math.floor(Math.random() * colors.length)];
+                    particles.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            function connect() {
+                let opacityValue = 1;
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a; b < particles.length; b++) {
+                        let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x))
+                                     + ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+                        if (distance < (canvas.width / 4) * (canvas.height / 4)) { // Larger connection range
+                            opacityValue = 1 - (distance / 50000);
+                            ctx.strokeStyle = `rgba(120, 120, 250, ${opacityValue})`;
+                            ctx.lineWidth = 0.8; // Thinner lines
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                }
+                connect();
+            }
+
+            init();
+            animate();
+
+            const faders = document.querySelectorAll('.fade-in');
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.2
+            };
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        entry.target.classList.remove('visible');
+                        return;
+                    }
+                    entry.target.classList.add('visible');
+                });
+            }, observerOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            const startButton = document.getElementById('startButton');
+            const introOverlay = document.getElementById('intro-overlay');
+
+            startButton.addEventListener('click', () => {
+                startMusic();
+                introOverlay.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
