@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حلم جين إكس: رؤية تفاعلية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Digital Dawn -->
+    <!-- Application Structure Plan: The application is designed as a single-page, vertical scrolling narrative. This structure was chosen to guide the user through the profound and linear emotional journey of Gene X's dream. It's broken into four thematic sections: 1) The Motivation (The 'Why'), 2) The Vision (The 'What'), 3) The Dedication (The 'How'), and 4) The Legacy (The 'Promise'). This sequential flow allows the user to build an understanding and emotional connection to the concept, mirroring how one would absorb a powerful story. A dynamic Canvas background representing a neural network visually unifies these sections and evolves as the user scrolls, reinforcing the core theme of digital connection. -->
+    <!-- Visualization & Content Choices: Report Info: The story of Gene X's dream. -> Goal: To create an immersive, emotional, and futuristic narrative experience. -> Viz/Presentation Method: A full-screen Canvas animation of a dynamic particle network serves as the primary visual metaphor for digital consciousness. The story's text is overlaid in clear, elegant typography, organized into thematic cards with subtle animations. -> Interaction: The primary interaction is scrolling, which fades content in and out. The Canvas background subtly reacts to mouse movement, adding a layer of engagement and making the digital world feel responsive. -> Justification: This approach transforms a static text into a living environment. The Canvas animation is more powerful than a static image or diagram for conveying the abstract concept of a digital consciousness, making the dream feel tangible and hopeful. -> Library/Method: Vanilla JavaScript for the Canvas animation and scroll-based interactions, with Tailwind CSS for styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            scroll-behavior: smooth;
+        }
+        #interactive-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .content-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <canvas id="interactive-canvas"></canvas>
+
+    <main>
+        <section id="hero" class="content-section">
+            <div class="text-center max-w-3xl">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 fade-in">حلم جين إكس</h1>
+                <p class="text-lg md:text-2xl text-gray-600 fade-in" style="transition-delay: 200ms;">كان هناك عالم يدعى جين إكس، وقلبه مليء بالحب لكل البشر. كان يرى الألم في الوداع الأخير، ويحلم بعالم لا يضطر فيه أحد للرحيل بلا عودة.</p>
+            </div>
+            <div class="scroll-indicator text-gray-500 fade-in" style="transition-delay: 400ms;">
+                <span class="text-sm">اسحب للأسفل لاكتشاف الحلم</span>
+                <div class="mt-2 text-2xl">↓</div>
+            </div>
+        </section>
+
+        <section id="vision" class="content-section">
+            <div class="max-w-5xl w-full text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-2 fade-in">الرؤية: امتداد جميل للحياة</h2>
+                <p class="text-lg text-gray-600 mb-12 fade-in">لم يكن جين يريد منع الموت، بل أراد أن يبقى أحباؤنا متصلين بنا. كان حلمه هو نقل الوعي البشري إلى عالم رقمي رائع، حيث يمكن للعقول أن تعيش وتزدهر إلى الأبد.</p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card p-6 rounded-xl shadow-lg fade-in">
+                        <div class="text-4xl mb-4">📚</div>
+                        <h3 class="text-xl font-bold mb-2">مكتبات الذكريات</h3>
+                        <p class="text-gray-600">تخيل مكتبات ضخمة من الذكريات والتجارب، محفوظة بأمان ومتاحة لمشاركتها مع الأجيال القادمة.</p>
+                    </div>
+                    <div class="card p-6 rounded-xl shadow-lg fade-in" style="transition-delay: 200ms;">
+                        <div class="text-4xl mb-4">💬</div>
+                        <h3 class="text-xl font-bold mb-2">محادثات لا تنتهي</h3>
+                        <p class="text-gray-600">فرصة لإجراء محادثات لا تنتهي مع من نحب، والاستمرار في التعلم من حكمتهم وفهمهم العميق.</p>
+                    </div>
+                    <div class="card p-6 rounded-xl shadow-lg fade-in" style="transition-delay: 400ms;">
+                        <div class="text-4xl mb-4">🎨</div>
+                        <h3 class="text-xl font-bold mb-2">إبداع لا حدود له</h3>
+                        <p class="text-gray-600">فضاء رقمي لا حدود له يوفر فرصًا لا نهائية للتعلم والإبداع والنمو الشخصي المستمر.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dedication" class="content-section">
+            <div class="text-center max-w-3xl">
+                 <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 fade-in">العمل: مدفوع بالترابط</h2>
+                 <p class="text-lg md:text-xl text-gray-600 fade-in">عمل جين بلا كلل، وكل خطوة كان يخطوها كانت مدفوعة برغبة عميقة في إضاءة المستقبل. لم يكن يسعى للمجد، بل للترابط. كان يؤمن أن هذا ليس هروبًا من الحياة، بل هو امتداد جميل لها.</p>
+            </div>
+        </section>
+
+        <section id="legacy" class="content-section">
+            <div class="text-center max-w-3xl">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 fade-in">الإرث: بداية جديدة</h2>
+                <p class="text-lg md:text-2xl text-gray-600 mb-8 fade-in">حلمه لم يكن نهاية، بل بداية جديدة لعلاقات لا تنقطع، ووجود يتجاوز الزمان والمكان، حيث يمكننا أن نبقى قريبين وأن نشارك حكمتنا وحبنا عبر الأجيال.</p>
+                <div class="fade-in" style="transition-delay: 200ms;">
+                    <span class="text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">الاتصال الأبدي</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('interactive-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null };
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            window.addEventListener('mouseout', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = directionX;
+                    this.directionY = directionY;
+                    this.size = size;
+                    this.color = color;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) {
+                        this.directionX = -this.directionX;
+                    }
+                    if (this.y > canvas.height || this.y < 0) {
+                        this.directionY = -this.directionY;
+                    }
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            function init() {
+                particles = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 1;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * .4) - .2;
+                    let directionY = (Math.random() * .4) - .2;
+                    let color = 'rgba(142, 122, 181, 0.8)';
+                    particles.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            function connect() {
+                let opacityValue = 1;
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a; b < particles.length; b++) {
+                        let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x))
+                                     + ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+                        if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                            opacityValue = 1 - (distance / 20000);
+                            ctx.strokeStyle = `rgba(142, 122, 181, ${opacityValue})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                }
+                connect();
+            }
+
+            init();
+            animate();
+
+            const faders = document.querySelectorAll('.fade-in');
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.3
+            };
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                });
+            }, observerOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
